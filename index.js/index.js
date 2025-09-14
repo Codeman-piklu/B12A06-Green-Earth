@@ -5,6 +5,21 @@ const removeActive = () => {
     btn.classList.remove("active");
   });
 };
+//*manage spinner
+const manageSpinner = (status, delay = 0) => {
+  const spinner = document.getElementById("spinner");
+  const content = document.getElementById("choose_tree");
+
+  if (status) {
+    spinner.classList.remove("hidden");
+    content.classList.add("hidden");
+  } else {
+    setTimeout(() => {
+      spinner.classList.add("hidden");
+      content.classList.remove("hidden");
+    }, delay);
+  }
+};
 
 //* load catagori funtion
 const loadCatagory = () => {
@@ -37,6 +52,7 @@ loadCatagory();
 
 //* load all tree funtion 
 const loadAllTrees = () => {
+  manageSpinner(true); 
   fetch("https://openapi.programming-hero.com/api/plants")
     .then(res => res.json())
     .then(data => displayAllTrees(data.plants));
@@ -49,6 +65,7 @@ const loadPlantsByCategory = (id) => {
 };
 //*display all trees
 const displayAllTrees = (plants ) => {
+  manageSpinner(true); 
   const cardContainer = document.getElementById("card_container");
   cardContainer.innerHTML = ""; 
   plants.forEach(plant => {
@@ -75,6 +92,7 @@ const displayAllTrees = (plants ) => {
       addToCart(plant);
     });
   });
+  manageSpinner(false, 1500);
 };
 
 
